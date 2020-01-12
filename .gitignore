@@ -9,6 +9,9 @@
 # production
 /build
 
+# virtual env
+/venv
+
 # misc
 .DS_Store
 .env.local
