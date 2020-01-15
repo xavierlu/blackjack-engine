@@ -1,5 +1,3 @@
-const bt = {};
-
 const basicStrategyStyle = {
   side: {
     width: "35px",

@@ -22,7 +22,6 @@ import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 import HeaderLinks from "components/Header/HeaderLinks.js";
 import Button from "components/CustomButtons/Button.js";
-import Parallax from "components/Parallax/Parallax.js";
 
 import simulationPageStyle from "./jss/simulationPageStyle.js";
 import { title } from "assets/jss/material-kit-react.js";
@@ -38,7 +37,7 @@ const styles = theme => simulationPageStyle;
 class SimulationPage extends React.Component {
   state = {
     activeStep: 0,
-    num_sum: 1000
+    num_hands: 1000
   };
 
   render() {
@@ -54,12 +53,12 @@ class SimulationPage extends React.Component {
         case 2:
           return (
             <div className={classes.root}>
-              <Typography gutterBottom>Number of games to simulate</Typography>
+              <Typography gutterBottom>Number of Hands to Simulate</Typography>
               <Slider
                 step={10}
                 min={100}
                 max={5000}
-                value={this.state.num_sum}
+                value={this.state.num_hands}
                 onChange={(event, newValue) => {
                   this.setState({ num_sum: newValue });
                 }}

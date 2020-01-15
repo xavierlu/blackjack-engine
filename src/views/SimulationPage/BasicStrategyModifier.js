@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/styles";
 
-import { Typography, Popover, Button } from "@material-ui/core";
+import { Typography, Button } from "@material-ui/core";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 
 import basicStrategyStyle from "./jss/basicStrategyTableStyle.js";
