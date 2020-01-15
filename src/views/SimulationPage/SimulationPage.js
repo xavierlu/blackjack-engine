@@ -37,7 +37,7 @@ const styles = theme => simulationPageStyle;
 
 class SimulationPage extends React.Component {
   state = {
-    activeStep: 1,
+    activeStep: 0,
     num_sum: 1000
   };
 
