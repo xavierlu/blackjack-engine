@@ -6,26 +6,52 @@ import {
   Radio,
   RadioGroup,
   FormControlLabel,
-  Typography
+  Typography,
+  FormControl,
+  Select,
+  MenuItem,
+  FormHelperText
 } from "@material-ui/core";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
 
 import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
-import stylessheet from "./jss/styles";
+import gameSettingsStyle from "./jss/gameSettingsStyle.js";
 
-const styles = theme => stylessheet;
+const styles = theme => gameSettingsStyle;
 
 class GameSettings extends React.Component {
   state = {
     deck: "",
     hit: "",
-    surrender: ""
+    surrender: "",
+    das: "",
+    resplit: "",
+    charlie: "",
+    card_removed: "",
+    bjPays: ""
   };
 
   render() {
     const { classes } = this.props;
+
+    const cards = [
+      "K",
+      "Q",
+      "J",
+      "10",
+      "9",
+      "8",
+      "7",
+      "6",
+      "5",
+      "4",
+      "3",
+      "2",
+      "A"
+    ];
+
     return (
       <div>
         <Typography>{"Some helpful text here"}</Typography>
@@ -138,77 +164,157 @@ class GameSettings extends React.Component {
             <div>
               <h4>Double After Split</h4>
             </div>
-            {["Allowed", "Not Allowed"].map(element => {
-              return (
-                <FormControlLabel
-                  control={
-                    <Radio
-                      icon={
-                        <FiberManualRecord className={classes.radioUnchecked} />
-                      }
-                      checkedIcon={
-                        <FiberManualRecord className={classes.radioChecked} />
-                      }
-                    />
-                  }
-                  classes={{
-                    label: classes.label,
-                    root: classes.labelRoot
-                  }}
-                  label={element}
-                />
-              );
-            })}
+            <RadioGroup
+              onChange={event => {
+                this.setState({ das: event.target.value });
+              }}
+            >
+              {["Allowed", "Not Allowed"].map(ele => {
+                return (
+                  <FormControlLabel
+                    value={ele}
+                    control={
+                      <Radio
+                        icon={
+                          <FiberManualRecord
+                            className={classes.radioUnchecked}
+                          />
+                        }
+                        checkedIcon={
+                          <FiberManualRecord className={classes.radioChecked} />
+                        }
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                      root: classes.labelRoot
+                    }}
+                    label={ele}
+                  />
+                );
+              })}
+            </RadioGroup>
             <div>
               <h4>Resplitting</h4>
             </div>
-            {["Allowed", "Not Allowed"].map(element => {
-              return (
-                <FormControlLabel
-                  control={
-                    <Radio
-                      icon={
-                        <FiberManualRecord className={classes.radioUnchecked} />
-                      }
-                      checkedIcon={
-                        <FiberManualRecord className={classes.radioChecked} />
-                      }
-                    />
-                  }
-                  classes={{
-                    label: classes.label,
-                    root: classes.labelRoot
-                  }}
-                  label={element}
-                />
-              );
-            })}
+            <RadioGroup
+              onChange={event => {
+                this.setState({ resplit: event.target.value });
+              }}
+            >
+              {["Allowed", "Not Allowed"].map(ele => {
+                return (
+                  <FormControlLabel
+                    value={ele}
+                    control={
+                      <Radio
+                        icon={
+                          <FiberManualRecord
+                            className={classes.radioUnchecked}
+                          />
+                        }
+                        checkedIcon={
+                          <FiberManualRecord className={classes.radioChecked} />
+                        }
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                      root: classes.labelRoot
+                    }}
+                    label={ele}
+                  />
+                );
+              })}
+            </RadioGroup>
           </GridItem>
           <GridItem xs={6} sm={6} md={2}>
             <div>
               <h4>Charlie</h4>
             </div>
-            {["No", "5 Cards", "6 Cards", "7 Cards"].map(element => {
-              return (
-                <FormControlLabel
-                  control={
-                    <Radio
-                      icon={
-                        <FiberManualRecord className={classes.radioUnchecked} />
-                      }
-                      checkedIcon={
-                        <FiberManualRecord className={classes.radioChecked} />
-                      }
-                    />
-                  }
-                  classes={{
-                    label: classes.label,
-                    root: classes.labelRoot
-                  }}
-                  label={element + " Charlie"}
-                />
-              );
-            })}
+            <RadioGroup
+              onChange={event => {
+                this.setState({ charlie: event.target.value });
+              }}
+            >
+              {["No", "5 Cards", "6 Cards", "7 Cards"].map(ele => {
+                return (
+                  <FormControlLabel
+                    value={ele}
+                    control={
+                      <Radio
+                        icon={
+                          <FiberManualRecord
+                            className={classes.radioUnchecked}
+                          />
+                        }
+                        checkedIcon={
+                          <FiberManualRecord className={classes.radioChecked} />
+                        }
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                      root: classes.labelRoot
+                    }}
+                    label={ele + " Charlie"}
+                  />
+                );
+              })}
+            </RadioGroup>
+          </GridItem>
+          <GridItem xs={6} sm={6} md={2}>
+            <div>
+              <h4>Card Removed From Deck</h4>
+            </div>
+            <FormControl className={classes.formControl}>
+              <Select
+                value={this.state.card_removed}
+                onChange={event =>
+                  this.setState({ card_removed: event.target.value })
+                }
+              >
+                {cards.map(card => {
+                  return <MenuItem value={card}>{card}</MenuItem>;
+                })}
+              </Select>
+              <FormHelperText>Value</FormHelperText>
+            </FormControl>
+          </GridItem>
+          <GridItem xs={6} sm={6} md={2}>
+            <div>
+              <h4>Blackjack Pays</h4>
+            </div>
+            <RadioGroup
+              onChange={event => {
+                this.setState({ bjPays: event.target.value });
+              }}
+            >
+              {["3 to 2", "6 to 5"].map(ele => {
+                return (
+                  <FormControlLabel
+                    value={ele}
+                    control={
+                      <Radio
+                        icon={
+                          <FiberManualRecord
+                            className={classes.radioUnchecked}
+                          />
+                        }
+                        checkedIcon={
+                          <FiberManualRecord className={classes.radioChecked} />
+                        }
+                      />
+                    }
+                    classes={{
+                      label: classes.label,
+                      root: classes.labelRoot
+                    }}
+                    label={ele}
+                  />
+                );
+              })}
+            </RadioGroup>
           </GridItem>
         </GridContainer>
       </div>

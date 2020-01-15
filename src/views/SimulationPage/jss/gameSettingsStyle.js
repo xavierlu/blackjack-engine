@@ -1,4 +1,4 @@
-const stylessheet = {
+const gameSettingsStyle = {
   title: {
     color: "#3C4858",
     margin: "1.75rem 0 0.875rem",
@@ -41,7 +41,18 @@ const stylessheet = {
   },
   labelRoot: {
     marginLeft: "-14px"
+  },
+  formControl: {
+    minWidth: 100,
+    maxWidth: 300
+  },
+  chips: {
+    display: "flex",
+    flexWrap: "wrap"
+  },
+  chip: {
+    margin: 2
   }
 };
 
-export default stylessheet;
+export default gameSettingsStyle;

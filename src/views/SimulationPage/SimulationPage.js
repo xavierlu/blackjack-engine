@@ -9,7 +9,8 @@ import {
   StepLabel,
   StepContent,
   Paper,
-  Typography
+  Typography,
+  Slider
 } from "@material-ui/core";
 
 // @material-ui/icons
@@ -23,7 +24,7 @@ import HeaderLinks from "components/Header/HeaderLinks.js";
 import Button from "components/CustomButtons/Button.js";
 import Parallax from "components/Parallax/Parallax.js";
 
-import stylesheets from "assets/jss/material-kit-react/views/landingPage.js";
+import simulationPageStyle from "./jss/simulationPageStyle.js";
 import { title } from "assets/jss/material-kit-react.js";
 
 // Sections for this page
@@ -32,11 +33,12 @@ import BasicStrategyModifier from "./BasicStrategyModifier.js";
 
 const dashboardRoutes = [];
 
-const styles = theme => stylesheets;
+const styles = theme => simulationPageStyle;
 
 class SimulationPage extends React.Component {
   state = {
-    activeStep: 0
+    activeStep: 1,
+    num_sum: 1000
   };
 
   render() {
@@ -50,10 +52,22 @@ class SimulationPage extends React.Component {
         case 1:
           return <BasicStrategyModifier />;
         case 2:
-          return `Try out different ad text to see what brings in the most customers,
-                  and learn how to enhance your ads using features like ad extensions.
-                  If you run into any problems with your ads, find out how to tell if
-                  they're running and how to resolve approval issues.`;
+          return (
+            <div className={classes.root}>
+              <Typography gutterBottom>Number of games to simulate</Typography>
+              <Slider
+                step={10}
+                min={100}
+                max={5000}
+                value={this.state.num_sum}
+                onChange={(event, newValue) => {
+                  this.setState({ num_sum: newValue });
+                }}
+                valueLabelDisplay="auto"
+                aria-labelledby="continuous-slider"
+              />
+            </div>
+          );
         default:
           return "Unknown step";
       }
