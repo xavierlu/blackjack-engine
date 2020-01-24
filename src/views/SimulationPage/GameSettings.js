@@ -22,19 +22,12 @@ import gameSettingsStyle from "./jss/gameSettingsStyle.js";
 const styles = theme => gameSettingsStyle;
 
 class GameSettings extends React.Component {
-  state = {
-    deck: "",
-    hit: "",
-    surrender: "",
-    das: "",
-    resplit: "",
-    charlie: "",
-    card_removed: "",
-    bjPays: ""
-  };
+  constructor(props) {
+    super(props);
+  }
 
   render() {
-    const { classes } = this.props;
+    const { classes, handleChangeGameSettings } = this.props;
 
     const cards = [
       "K",
@@ -54,7 +47,7 @@ class GameSettings extends React.Component {
 
     return (
       <div>
-        <Typography>{"Some helpful text here"}</Typography>
+        <Typography>Some helpful text here</Typography>
         <GridContainer>
           <GridItem xs={6} sm={6} md={2}>
             <div>
@@ -62,7 +55,7 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ deck: event.target.value });
+                handleChangeGameSettings("num_deck", event.target.value);
               }}
             >
               {["2", "3", "4", "5", "6", "7", "8"].map(ele => {
@@ -97,7 +90,10 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ hit: event.target.value });
+                handleChangeGameSettings(
+                  "soft17",
+                  event.target.value === "Hit"
+                );
               }}
             >
               {["Stand", "Hit"].map(ele => {
@@ -131,7 +127,7 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ surrender: event.target.value });
+                handleChangeGameSettings("surrender", event.target.value);
               }}
             >
               {["No", "Early", "Late"].map(ele => {
@@ -166,7 +162,7 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ das: event.target.value });
+                handleChangeGameSettings("das", event.target.value);
               }}
             >
               {["Allowed", "Not Allowed"].map(ele => {
@@ -195,14 +191,17 @@ class GameSettings extends React.Component {
               })}
             </RadioGroup>
             <div>
-              <h4>Resplitting</h4>
+              <h4>Permitted Doubles</h4>
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ resplit: event.target.value });
+                handleChangeGameSettings(
+                  "permitted_doubles",
+                  event.target.value
+                );
               }}
             >
-              {["Allowed", "Not Allowed"].map(ele => {
+              {["Any 2 Cards", "9,T,A only", "T,A only"].map(ele => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -234,7 +233,7 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ charlie: event.target.value });
+                handleChangeGameSettings("charlie", event.target.value);
               }}
             >
               {["No", "5 Cards", "6 Cards", "7 Cards"].map(ele => {
@@ -269,9 +268,9 @@ class GameSettings extends React.Component {
             </div>
             <FormControl className={classes.formControl}>
               <Select
-                value={this.state.card_removed}
+                value={this.props.removed_card}
                 onChange={event =>
-                  this.setState({ card_removed: event.target.value })
+                  handleChangeGameSettings("removed_card", event.target.value)
                 }
               >
                 {cards.map(card => {
@@ -287,7 +286,7 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                this.setState({ bjPays: event.target.value });
+                handleChangeGameSettings("bjPays", event.target.value);
               }}
             >
               {["3 to 2", "6 to 5"].map(ele => {

@@ -30,14 +30,57 @@ import { title } from "assets/jss/material-kit-react.js";
 import GameSettings from "./GameSettings.js";
 import BasicStrategyModifier from "./BasicStrategyModifier.js";
 
+import hard_default from "./json/hard_default.json";
+import soft_default from "./json/soft_default.json";
+import split_default from "./json/split_default.json";
+
 const dashboardRoutes = [];
 
 const styles = theme => simulationPageStyle;
 
 class SimulationPage extends React.Component {
-  state = {
-    activeStep: 0,
-    num_hands: 1000
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeStep: 0,
+      num_hands: 1000,
+      gameSettings: {
+        num_deck: "",
+        soft17: "",
+        surrender: "",
+        das: "",
+        permitted_doubles: "",
+        charlie: "",
+        removed_card: "K",
+        bjPays: ""
+      },
+      basicStrategyTables: {
+        hard_table: hard_default,
+        soft_table: soft_default,
+        split_table: split_default
+      }
+    };
+  }
+
+  handleChangeGameSettings = (field, value) => {
+    this.setState({
+      gameSettings: { ...this.state.gameSettings, [field]: value }
+    });
+  };
+
+  handleModifyStrategyTable = (tableName, tableJSON, row, key, v) => {
+    this.setState({
+      basicStrategyTables: {
+        ...this.state.basicStrategyTables,
+        [tableName]: {
+          ...tableJSON,
+          [row]: {
+            ...tableJSON[row],
+            [key]: v
+          }
+        }
+      }
+    });
   };
 
   render() {
@@ -47,9 +90,21 @@ class SimulationPage extends React.Component {
     const getStepContent = step => {
       switch (step) {
         case 0:
-          return <GameSettings />;
+          return (
+            <GameSettings
+              card_removed={this.state.gameSettings.card_removed}
+              handleChangeGameSettings={this.handleChangeGameSettings}
+            />
+          );
         case 1:
-          return <BasicStrategyModifier />;
+          return (
+            <BasicStrategyModifier
+              hard_table={this.state.basicStrategyTables.hard_table}
+              soft_table={this.state.basicStrategyTables.soft_table}
+              split_table={this.state.basicStrategyTables.split_table}
+              handleModifyStrategyTable={this.handleModifyStrategyTable}
+            />
+          );
         case 2:
           return (
             <div className={classes.root}>
@@ -60,7 +115,7 @@ class SimulationPage extends React.Component {
                 max={5000}
                 value={this.state.num_hands}
                 onChange={(event, newValue) => {
-                  this.setState({ num_sum: newValue });
+                  this.setState({ num_hands: newValue });
                 }}
                 valueLabelDisplay="auto"
                 aria-labelledby="continuous-slider"
@@ -79,6 +134,10 @@ class SimulationPage extends React.Component {
     ];
 
     const handleNext = () => {
+      if (this.state.activeStep === 2) {
+        console.log(JSON.stringify(this.state));
+      }
+
       this.setState({ activeStep: this.state.activeStep + 1 });
     };
 
@@ -119,7 +178,7 @@ class SimulationPage extends React.Component {
                     textDecoration: "none"
                   }}
                 >
-                  Let{"'"}s talk product
+                  Test Out Your Basic Strategy
                 </h2>
                 <h5
                   style={{

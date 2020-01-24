@@ -7,19 +7,13 @@ import { Typography, Button } from "@material-ui/core";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 
 import basicStrategyStyle from "./jss/basicStrategyTableStyle.js";
-import hard_default from "./json/hard_default.json";
-import soft_default from "./json/soft_default.json";
-import split_default from "./json/split_default.json";
 
 const styles = theme => basicStrategyStyle;
 
 class BasicStrategyModifier extends React.Component {
-  state = {
-    pop_open: false,
-    hard_table: hard_default,
-    soft_table: soft_default,
-    split_table: split_default
-  };
+  constructor(props) {
+    super(props);
+  }
 
   getClassStyle = letter => {
     switch (letter) {
@@ -37,7 +31,18 @@ class BasicStrategyModifier extends React.Component {
     }
   };
 
-  getNextLetter = letter => {
+  circleLetterHard = letter => {
+    switch (letter) {
+      case "S":
+        return "H";
+      case "H":
+        return "D";
+      case "D":
+        return "S";
+    }
+  };
+
+  circleLetterSoft = letter => {
     switch (letter) {
       case "S":
         return "H";
@@ -47,6 +52,11 @@ class BasicStrategyModifier extends React.Component {
         return "Ds";
       case "Ds":
         return "S";
+    }
+  };
+
+  circleLetterSplit = letter => {
+    switch (letter) {
       case "Y":
         return "N";
       case "N":
@@ -77,23 +87,21 @@ class BasicStrategyModifier extends React.Component {
 
     for (let row = 18; row >= 7; row--) {
       let children = [];
-      let data = this.state.hard_table[row];
+      let data = this.props.hard_table[row];
       Object.keys(data).forEach(key => {
         children.push(
           <td className={this.props.classes.side}>
             <Button
               className={this.getClassStyle(data[key])}
-              onClick={() => {
-                this.setState({
-                  hard_table: {
-                    ...this.state.hard_table,
-                    [row]: {
-                      ...this.state.hard_table[row],
-                      [key]: this.getNextLetter(data[key])
-                    }
-                  }
-                });
-              }}
+              onClick={() =>
+                this.props.handleModifyStrategyTable(
+                  "hard_table",
+                  this.props.hard_table,
+                  row,
+                  key,
+                  this.circleLetterHard(data[key])
+                )
+              }
             >
               <Typography>{data[key]}</Typography>
             </Button>
@@ -118,23 +126,21 @@ class BasicStrategyModifier extends React.Component {
 
     for (let row = 9; row >= 2; row--) {
       let children = [];
-      let data = this.state.soft_table[row];
+      let data = this.props.soft_table[row];
       Object.keys(data).forEach(key => {
         children.push(
           <td className={this.props.classes.side}>
             <Button
               className={this.getClassStyle(data[key])}
-              onClick={() => {
-                this.setState({
-                  soft_table: {
-                    ...this.state.soft_table,
-                    [row]: {
-                      ...this.state.soft_table[row],
-                      [key]: this.getNextLetter(data[key])
-                    }
-                  }
-                });
-              }}
+              onClick={() =>
+                this.props.handleModifyStrategyTable(
+                  "soft_table",
+                  this.props.soft_table,
+                  row,
+                  key,
+                  this.circleLetterSoft(data[key])
+                )
+              }
             >
               <Typography>{data[key]}</Typography>
             </Button>
@@ -159,23 +165,21 @@ class BasicStrategyModifier extends React.Component {
 
     for (let row = 11; row >= 2; row--) {
       let children = [];
-      let data = this.state.split_table[row];
+      let data = this.props.split_table[row];
       Object.keys(data).forEach(key => {
         children.push(
           <td className={this.props.classes.side}>
             <Button
               className={this.getClassStyle(data[key])}
-              onClick={() => {
-                this.setState({
-                  split_table: {
-                    ...this.state.split_table,
-                    [row]: {
-                      ...this.state.split_table[row],
-                      [key]: this.getNextLetter(data[key])
-                    }
-                  }
-                });
-              }}
+              onClick={() =>
+                this.props.handleModifyStrategyTable(
+                  "split_table",
+                  this.props.split_table,
+                  row,
+                  key,
+                  this.circleLetterSplit(data[key])
+                )
+              }
             >
               <Typography>{data[key]}</Typography>
             </Button>
