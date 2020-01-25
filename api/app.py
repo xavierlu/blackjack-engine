@@ -11,12 +11,11 @@ app = Flask(__name__)
 @app.route("/", methods=['POST'])
 def hello():
     some_json = request.get_json()
-    print(some_json['gameSettings'])
-    table(some_json['gameSettings'])
+    table(some_json['gameSettings'], some_json['basicStrategyTables'], int(some_json['num_hands']))
 
     return jsonify({"you sent": some_json}), 201
 
-def table(config):
+def table(config, basicStrategyTables, num_hands):
     def new_deck():
         std_deck = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
         mod_deck = list(
@@ -39,7 +38,7 @@ def table(config):
 
     def is_blackjack(cards):
         assert len(cards) == 2
-        return True if get_num(cards) == 21 else False
+        return True if int(get_num(cards)) == 21 else False
 
     def get_num(cards):
         s = 0
@@ -50,18 +49,17 @@ def table(config):
             s = 0
             for c in cards:
                 s += int(c) if c != "A" else 1
-            return s
-        else:
-            return s
+
+        return str(s)
 
     def hard_round(deck, player, upcard):
-        while get_num(player) < 21 and hard_table[upcard][get_num(player)] != "S":
-            if hard_table[upcard][get_num(player)] == "D":
+        while int(get_num(player)) < 21 and hard_table[get_num(player)][upcard] != "S":
+            if hard_table[get_num(player)][upcard] == "D":
                 player.append(deck.pop())
                 return player
             else:
                 player.append(deck.pop())
-                if get_num(player) > 21:
+                if int(get_num(player)) > 21:
                     return player
 
         return player
@@ -69,15 +67,15 @@ def table(config):
     def soft_round(deck, player, upcard):
         curr_num = get_num([i for i in player if i != "A"])
 
-        if curr_num > 9:
+        if int(curr_num) > 9:
             return hard_round(deck, player, upcard)
 
-        if soft_table[upcard][curr_num] == "D":
+        if soft_table[curr_num][upcard] == "D":
             player.append(deck.pop())
             return player
-        elif soft_table[upcard][curr_num] == "H":
+        elif soft_table[curr_num][upcard] == "H":
             player.append(deck.pop())
-            if get_num(player) > 21:
+            if int(get_num(player)) > 21:
                 return player
             return soft_round(deck, player, upcard)
         else:
@@ -99,7 +97,7 @@ def table(config):
             print("blackjack!")
             return 1.5
         elif player[0] == player[1]:  # split
-            if split_table[dealer[0]][get_num([player[0]])] == "Y":  # do split
+            if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
                 print(player)
                 player = [
@@ -122,7 +120,7 @@ def table(config):
             player = [hard_round(deck, player, dealer[0])]
 
         for hand in player:
-            if get_num(hand) > 21:
+            if int(get_num(hand)) > 21:
                 print(str(hand) + " " + str(get_num(hand)))
                 print("player busts")
                 return -1
@@ -135,10 +133,10 @@ def table(config):
             if house > 21:
                 print("house busts")
                 # return 1
-            elif get_num(hand) > house:
+            elif int(get_num(hand)) > house:
                 print("won")
                 # return 1
-            elif get_num(hand) == house:
+            elif int(get_num(hand)) == house:
                 print("push")
                 # return 0
             else:
@@ -149,23 +147,23 @@ def table(config):
 
     def dealer_turn(deck, dealer):
         if bool(config["soft17"]):
-            while get_num(dealer) < 17 or ("A" in dealer and get_num(dealer) == 17):
+            while int(get_num(dealer)) < 17 or ("A" in dealer and int(get_num(dealer)) == 17):
                 dealer.append(deck.pop())
         else:
-            while get_num(dealer) < 17:
+            while int(get_num(dealer)) < 17:
                 dealer.append(deck.pop())
 
-        return get_num(dealer)
+        return int(get_num(dealer))
 
-    hard_table = pd.read_csv("basic_strategy_hard.csv", index_col=0)
-    soft_table = pd.read_csv("basic_strategy_soft.csv", index_col=0)
-    split_table = pd.read_csv("basic_strategy_split.csv", index_col=0)
+    hard_table = basicStrategyTables['hard_table']
+    soft_table = basicStrategyTables['soft_table']
+    split_table = basicStrategyTables['split_table']
 
     deck, reshuffle_percentage = new_deck()
 
     # start_round(deck)
     # sum = 0
-    for i in range(0, 100):
+    for i in range(0, num_hands):
         if len(deck) < reshuffle_percentage:
             deck, reshuffle_percentage = new_deck()
         start_round(deck)
