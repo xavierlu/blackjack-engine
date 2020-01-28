@@ -60,6 +60,7 @@ class GameSettings extends React.Component {
                     value={ele}
                     control={
                       <Radio
+                        checked={this.props.gameSettings.num_deck === ele}
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}
@@ -132,6 +133,7 @@ class GameSettings extends React.Component {
                     value={ele}
                     control={
                       <Radio
+                        checked={this.props.gameSettings.surrender === ele}
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}
@@ -167,6 +169,7 @@ class GameSettings extends React.Component {
                     value={ele}
                     control={
                       <Radio
+                        checked={this.props.gameSettings.das === ele}
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}
@@ -203,6 +206,9 @@ class GameSettings extends React.Component {
                     value={ele}
                     control={
                       <Radio
+                        checked={
+                          this.props.gameSettings.permitted_doubles === ele
+                        }
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}
@@ -229,7 +235,7 @@ class GameSettings extends React.Component {
             </div>
             <FormControl className={classes.formControl}>
               <Select
-                value={this.props.removed_card}
+                value={this.props.gameSettings.removed_card}
                 onChange={event =>
                   handleChangeGameSettings("removed_card", event.target.value)
                 }
@@ -256,6 +262,7 @@ class GameSettings extends React.Component {
                     value={ele}
                     control={
                       <Radio
+                        checked={this.props.gameSettings.bjPays === ele}
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}

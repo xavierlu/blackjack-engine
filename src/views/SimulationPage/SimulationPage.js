@@ -97,7 +97,7 @@ class SimulationPage extends React.Component {
         case 0:
           return (
             <GameSettings
-              removed_card={this.state.gameSettings.removed_card}
+              gameSettings={this.state.gameSettings}
               handleChangeGameSettings={this.handleChangeGameSettings}
             />
           );
