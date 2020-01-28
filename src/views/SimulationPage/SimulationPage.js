@@ -56,7 +56,6 @@ class SimulationPage extends React.Component {
         surrender: "",
         das: "",
         permitted_doubles: "",
-        charlie: "",
         removed_card: "K",
         bjPays: ""
       },
@@ -98,7 +97,7 @@ class SimulationPage extends React.Component {
         case 0:
           return (
             <GameSettings
-              card_removed={this.state.gameSettings.card_removed}
+              removed_card={this.state.gameSettings.removed_card}
               handleChangeGameSettings={this.handleChangeGameSettings}
             />
           );

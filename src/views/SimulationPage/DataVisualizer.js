@@ -7,12 +7,14 @@ import {
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
   Legend,
-  ReferenceLine
+  ReferenceLine,
+  Tooltip
 } from "recharts";
 
 import dataVisStyle from "./jss/dataVisStyles.js";
+
+import CustomTooltip from "./CustomTooltip.js";
 
 import { withStyles } from "@material-ui/styles";
 
@@ -46,7 +48,7 @@ class DataVisualizer extends React.Component {
         <YAxis />
         <CartesianGrid strokeDasharray="5 5" />
         <ReferenceLine y={0} stroke="black" />
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
         <Legend />
         <Line dataKey="chips" dot={false} />
       </LineChart>

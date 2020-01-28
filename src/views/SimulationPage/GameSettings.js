@@ -22,10 +22,6 @@ import gameSettingsStyle from "./jss/gameSettingsStyle.js";
 const styles = theme => gameSettingsStyle;
 
 class GameSettings extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   render() {
     const { classes, handleChangeGameSettings } = this.props;
 
@@ -222,41 +218,6 @@ class GameSettings extends React.Component {
                       root: classes.labelRoot
                     }}
                     label={ele}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </GridItem>
-          <GridItem xs={6} sm={6} md={2}>
-            <div>
-              <h4>Charlie</h4>
-            </div>
-            <RadioGroup
-              onChange={event => {
-                handleChangeGameSettings("charlie", event.target.value);
-              }}
-            >
-              {["No", "5 Cards", "6 Cards", "7 Cards"].map(ele => {
-                return (
-                  <FormControlLabel
-                    value={ele}
-                    control={
-                      <Radio
-                        icon={
-                          <FiberManualRecord
-                            className={classes.radioUnchecked}
-                          />
-                        }
-                        checkedIcon={
-                          <FiberManualRecord className={classes.radioChecked} />
-                        }
-                      />
-                    }
-                    classes={{
-                      label: classes.label,
-                      root: classes.labelRoot
-                    }}
-                    label={ele + " Charlie"}
                   />
                 );
               })}

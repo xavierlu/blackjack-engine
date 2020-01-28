@@ -11,10 +11,6 @@ import basicStrategyStyle from "./jss/basicStrategyTableStyle.js";
 const styles = theme => basicStrategyStyle;
 
 class BasicStrategyModifier extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
   getClassStyle = letter => {
     switch (letter) {
       case "Y":
@@ -28,6 +24,8 @@ class BasicStrategyModifier extends React.Component {
       case "Ds":
       case "Y/N":
         return this.props.classes.ds;
+      default:
+        console.error("wtf");
     }
   };
 
@@ -39,6 +37,8 @@ class BasicStrategyModifier extends React.Component {
         return "D";
       case "D":
         return "S";
+      default:
+        console.error("wtf");
     }
   };
 
@@ -52,6 +52,8 @@ class BasicStrategyModifier extends React.Component {
         return "Ds";
       case "Ds":
         return "S";
+      default:
+        console.error("wtf");
     }
   };
 
@@ -63,6 +65,8 @@ class BasicStrategyModifier extends React.Component {
         return "Y/N";
       case "Y/N":
         return "Y";
+      default:
+        console.error("wtf");
     }
   };
 
@@ -200,7 +204,7 @@ class BasicStrategyModifier extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
 
     return (
       <div>
