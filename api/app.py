@@ -1,19 +1,20 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, json
+from flask_cors import CORS
 
 import random
-import multiprocessing
-import math
-import time
+import logging, sys
 import pandas as pd
 
 app = Flask(__name__)
+cors = CORS(app)
 
 @app.route("/", methods=['POST'])
 def hello():
-    some_json = request.get_json()
-    table(some_json['gameSettings'], some_json['basicStrategyTables'], int(some_json['num_hands']))
+    logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+    config = request.get_json()
+    data = table(config['gameSettings'], config['basicStrategyTables'], int(config['num_hands']))
 
-    return jsonify({"you sent": some_json}), 201
+    return json_response(data)
 
 def table(config, basicStrategyTables, num_hands):
     def new_deck():
@@ -21,7 +22,7 @@ def table(config, basicStrategyTables, num_hands):
         mod_deck = list(
             filter(
                 lambda x: x not in list(config["removed_card"]),
-                std_deck * int(config["num_deck"]),
+                std_deck * 4 * int(config["num_deck"]),
             )
         )
         mod_deck = list(
@@ -69,6 +70,8 @@ def table(config, basicStrategyTables, num_hands):
 
         if int(curr_num) > 9:
             return hard_round(deck, player, upcard)
+        elif int(curr_num) == 0:
+            curr_num = '2'
 
         if soft_table[curr_num][upcard] == "D":
             player.append(deck.pop())
@@ -82,6 +85,8 @@ def table(config, basicStrategyTables, num_hands):
             return player
 
     def start_round(deck):
+        count = 0
+
         player = []
         dealer = []
 
@@ -90,16 +95,16 @@ def table(config, basicStrategyTables, num_hands):
         player.append(deck.pop())
         dealer.append(deck.pop())
 
-        print(player)
-        print(dealer[0])
+        logging.debug(player)
+        logging.debug(dealer[0])
 
         if is_blackjack(player):
-            print("blackjack!")
+            logging.debug("blackjack!")
             return 1.5
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
-                print(player)
+                logging.debug(player)
                 player = [
                     (
                         soft_round(deck, hand, dealer[0])
@@ -113,37 +118,35 @@ def table(config, basicStrategyTables, num_hands):
                     player = [soft_round(deck, player, dealer[0])]
                 else:
                     player = [hard_round(deck, player, dealer[0])]
-            # return 0
         elif "A" in player:  # soft
             player = [soft_round(deck, player, dealer[0])]
         else:  # hard
             player = [hard_round(deck, player, dealer[0])]
 
-        for hand in player:
-            if int(get_num(hand)) > 21:
-                print(str(hand) + " " + str(get_num(hand)))
-                print("player busts")
-                return -1
 
         house = dealer_turn(deck, dealer)
         for hand in player:
-            print(str(hand) + " " + str(get_num(hand)))
-            print(str(dealer) + " " + str(get_num(dealer)))
+            logging.debug(str(hand) + " " + str(get_num(hand)))
+            logging.debug(str(dealer) + " " + str(get_num(dealer)))
 
-            if house > 21:
-                print("house busts")
-                # return 1
+            if int(get_num(hand)) > 21:
+                logging.debug(str(hand) + " " + str(get_num(hand)))
+                logging.debug("player busts")
+                count += -1
+            elif house > 21:
+                logging.debug("house busts")
+                count += 1
             elif int(get_num(hand)) > house:
-                print("won")
-                # return 1
+                logging.debug("won")
+                count += 1
             elif int(get_num(hand)) == house:
-                print("push")
-                # return 0
+                logging.debug("push")
+                count += 0
             else:
-                print("lose")
-                # return -1
+                logging.debug("lose")
+                count += -1
 
-        return 0
+        return count
 
     def dealer_turn(deck, dealer):
         if bool(config["soft17"]):
@@ -161,16 +164,23 @@ def table(config, basicStrategyTables, num_hands):
 
     deck, reshuffle_percentage = new_deck()
 
-    # start_round(deck)
-    # sum = 0
+    logging.info(list(config["removed_card"]))
+    logging.info(int(config["num_deck"]))
+
+    total_count = 0
+    data = []
     for i in range(0, num_hands):
         if len(deck) < reshuffle_percentage:
             deck, reshuffle_percentage = new_deck()
-        start_round(deck)
-        print("---")
+        total_count += start_round(deck)
+        data.append({'chips' : total_count})
+        logging.debug("---")
 
-    # print(sum)
+    return data
 
+
+def json_response(payload, status=200):
+     return (json.dumps(payload), status, {'content-type': 'application/json'})
 
 if __name__ == '__main__':
     app.run(debug=True)

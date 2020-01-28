@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import axios from "axios";
+
 // @material-ui/core components
 import { withStyles } from "@material-ui/styles";
 import {
@@ -10,7 +12,8 @@ import {
   StepContent,
   Paper,
   Typography,
-  Slider
+  Slider,
+  CircularProgress
 } from "@material-ui/core";
 
 // @material-ui/icons
@@ -29,6 +32,7 @@ import { title } from "assets/jss/material-kit-react.js";
 // Sections for this page
 import GameSettings from "./GameSettings.js";
 import BasicStrategyModifier from "./BasicStrategyModifier.js";
+import DataVisualizer from "./DataVisualizer.js";
 
 import hard_default from "./json/hard_default.json";
 import soft_default from "./json/soft_default.json";
@@ -42,6 +46,8 @@ class SimulationPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      data: null,
+      loading: false,
       activeStep: 0,
       num_hands: 1000,
       gameSettings: {
@@ -135,7 +141,25 @@ class SimulationPage extends React.Component {
 
     const handleNext = () => {
       if (this.state.activeStep === 2) {
-        console.log(JSON.stringify(this.state));
+        this.setState({ loading: true, data: null }, () => {
+          axios
+            .post("http://127.0.0.1:5000/", this.state, {
+              headers: {
+                "Content-Type": "application/json",
+                Accepts: "application/json",
+                "Access-Control-Allow-Headers": "Content-Type",
+                "Access-Control-Allow-Origin": "*",
+                "Access-Control-Allow-Methods": "POST"
+              }
+            })
+            .then(result => {
+              console.log(result);
+              this.setState({
+                loading: false,
+                data: result.data
+              });
+            });
+        });
       }
 
       this.setState({ activeStep: this.state.activeStep + 1 });
@@ -231,10 +255,17 @@ class SimulationPage extends React.Component {
             ))}
           </Stepper>
           {this.state.activeStep === steps.length && (
-            <Paper square elevation={0} className={classes.resetContainer}>
-              <Typography>
-                All steps completed - you&apos;re finished
-              </Typography>
+            <Paper
+              square
+              elevation={0}
+              className={classes.resetContainer}
+              id="dataVis"
+            >
+              {this.state.loading ? (
+                <CircularProgress />
+              ) : (
+                <DataVisualizer data={this.state.data} />
+              )}
               <Button onClick={handleReset} className={classes.button}>
                 Reset
               </Button>
@@ -247,7 +278,7 @@ class SimulationPage extends React.Component {
     );
   }
 }
-
+//909-638-6247
 SimulationPage.propTypes = {
   classes: PropTypes.object.isRequired
 };
