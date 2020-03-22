@@ -56,8 +56,7 @@ class SimulationPage extends React.Component {
         surrender: "",
         das: "",
         permitted_doubles: "",
-        removed_card: "K",
-        bjPays: ""
+        removed_card: "K"
       },
       basicStrategyTables: {
         hard_table: hard_default,

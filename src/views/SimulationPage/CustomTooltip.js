@@ -1,9 +1,9 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { Card } from "@material-ui/core";
+import { Card, Typography } from "@material-ui/core";
 
-import dataVisStyle from "./jss/dataVisStyles.js";
+import dataVisStyle from "./jss/tooltipStyle.js";
 
 import { withStyles } from "@material-ui/styles";
 
@@ -17,14 +17,15 @@ class CustomTooltip extends React.Component {
   componentDidMount() {}
 
   render() {
-    const { active } = this.props;
+    const { classes, active } = this.props;
 
     if (active) {
       const { payload, label } = this.props;
       return (
-        <Card raised>
-          <p className="label">{`${label} : ${payload[0].value}`}</p>
-          <p className="desc">Anything you want can be displayed here.</p>
+        <Card raised className={classes.paperbox}>
+          <Typography>{`Round ${label}: ${payload[0].value}`}</Typography>
+          <Typography>Your cards: [10, 7]</Typography>
+          <Typography>Dealer card: 9</Typography>
         </Card>
       );
     }

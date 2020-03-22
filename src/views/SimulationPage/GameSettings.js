@@ -247,42 +247,6 @@ class GameSettings extends React.Component {
               <FormHelperText>Value</FormHelperText>
             </FormControl>
           </GridItem>
-          <GridItem xs={6} sm={6} md={2}>
-            <div>
-              <h4>Blackjack Pays</h4>
-            </div>
-            <RadioGroup
-              onChange={event => {
-                handleChangeGameSettings("bjPays", event.target.value);
-              }}
-            >
-              {["3 to 2", "6 to 5"].map(ele => {
-                return (
-                  <FormControlLabel
-                    value={ele}
-                    control={
-                      <Radio
-                        checked={this.props.gameSettings.bjPays === ele}
-                        icon={
-                          <FiberManualRecord
-                            className={classes.radioUnchecked}
-                          />
-                        }
-                        checkedIcon={
-                          <FiberManualRecord className={classes.radioChecked} />
-                        }
-                      />
-                    }
-                    classes={{
-                      label: classes.label,
-                      root: classes.labelRoot
-                    }}
-                    label={ele}
-                  />
-                );
-              })}
-            </RadioGroup>
-          </GridItem>
         </GridContainer>
       </div>
     );
