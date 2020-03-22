@@ -35,7 +35,16 @@ const basicStrategyStyle = {
       transform: "scale(0.9, 0.9)",
       backgroundColor: "#5fc0ef"
     },
-    backgroundColor: "#5fc0ed"
+    backgroundColor: "#5fc0ed",
+    textTransform: "none"
+  },
+  su: {
+    "&:hover": {
+      transform: "scale(0.9, 0.9)",
+      backgroundColor: "#D3D3D3"
+    },
+    backgroundColor: "#D3D3D3",
+    textTransform: "none"
   }
 };
 

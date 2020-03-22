@@ -2,23 +2,28 @@ from flask import Flask, jsonify, request, json
 from flask_cors import CORS
 
 import random
-import logging, sys
+import logging
+import sys
 import pandas as pd
 
 app = Flask(__name__)
 cors = CORS(app)
 
+
 @app.route("/", methods=['POST'])
 def hello():
     logging.basicConfig(stream=sys.stderr, level=logging.INFO)
     config = request.get_json()
-    data = table(config['gameSettings'], config['basicStrategyTables'], int(config['num_hands']))
+    data = table(config['gameSettings'], config[
+                 'basicStrategyTables'], int(config['num_hands']))
 
     return json_response(data)
 
+
 def table(config, basicStrategyTables, num_hands):
     def new_deck():
-        std_deck = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"]
+        std_deck = ["2", "3", "4", "5", "6", "7",
+                    "8", "9", "10", "J", "Q", "K", "A"]
         mod_deck = list(
             filter(
                 lambda x: x not in list(config["removed_card"]),
@@ -26,7 +31,8 @@ def table(config, basicStrategyTables, num_hands):
             )
         )
         mod_deck = list(
-            map(lambda x: x if (x != "J" and x != "Q" and x != "K") else "10", mod_deck)
+            map(lambda x: x if (x != "J" and x !=
+                                "Q" and x != "K") else "10", mod_deck)
         )
         random.shuffle(mod_deck)
         return (
@@ -56,8 +62,13 @@ def table(config, basicStrategyTables, num_hands):
     def hard_round(deck, player, upcard):
         while int(get_num(player)) < 21 and hard_table[get_num(player)][upcard] != "S":
             if hard_table[get_num(player)][upcard] == "D":
-                player.append(deck.pop())
-                return player
+                if (not is_splitted) or (is_splitted and bool(config['das'])) 
+                    player.append(deck.pop())
+                    return player
+                else:
+                    player.append(deck.pop())
+                    if int(get_num(player)) > 21:
+                        return player
             else:
                 player.append(deck.pop())
                 if int(get_num(player)) > 21:
@@ -74,8 +85,13 @@ def table(config, basicStrategyTables, num_hands):
             curr_num = '2'
 
         if soft_table[curr_num][upcard] == "D":
-            player.append(deck.pop())
-            return player
+            if (not is_splitted) or (is_splitted and bool(config['das'])) 
+                player.append(deck.pop())
+                return player
+            else:
+                player.append(deck.pop())
+                if int(get_num(player)) > 21:
+                    return player
         elif soft_table[curr_num][upcard] == "H":
             player.append(deck.pop())
             if int(get_num(player)) > 21:
@@ -101,9 +117,12 @@ def table(config, basicStrategyTables, num_hands):
         if is_blackjack(player):
             logging.debug("blackjack!")
             return 1.5
+        elif bool(config['surrender']) and (hard_table[get_num(player)][dealer[0]] == 'Su' or soft_table[get_num(player)][dealer[0]] == 'Su'):
+            return -0.5
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
+                is_splitted = True
                 logging.debug(player)
                 player = [
                     (
@@ -122,7 +141,6 @@ def table(config, basicStrategyTables, num_hands):
             player = [soft_round(deck, player, dealer[0])]
         else:  # hard
             player = [hard_round(deck, player, dealer[0])]
-
 
         house = dealer_turn(deck, dealer)
         for hand in player:
@@ -162,6 +180,9 @@ def table(config, basicStrategyTables, num_hands):
     soft_table = basicStrategyTables['soft_table']
     split_table = basicStrategyTables['split_table']
 
+    # keep track of game states
+    is_splitted = False
+
     deck, reshuffle_percentage = new_deck()
 
     logging.info(list(config["removed_card"]))
@@ -173,15 +194,15 @@ def table(config, basicStrategyTables, num_hands):
         if len(deck) < reshuffle_percentage:
             deck, reshuffle_percentage = new_deck()
         total_count += start_round(deck)
-        data.append({'chips' : total_count})
+        is_splitted = False
+        data.append({'chips': total_count})
         logging.debug("---")
 
     return data
 
 
 def json_response(payload, status=200):
-     return (json.dumps(payload), status, {'content-type': 'application/json'})
+    return (json.dumps(payload), status, {'content-type': 'application/json'})
 
 if __name__ == '__main__':
     app.run(debug=True)
-

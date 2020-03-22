@@ -26,6 +26,7 @@ class GameSettings extends React.Component {
     const { classes, handleChangeGameSettings } = this.props;
 
     const cards = [
+      "None",
       "K",
       "Q",
       "J",
@@ -124,16 +125,18 @@ class GameSettings extends React.Component {
             </div>
             <RadioGroup
               onChange={event => {
-                handleChangeGameSettings("surrender", event.target.value);
+                handleChangeGameSettings(
+                  "surrender",
+                  event.target.value === "Early"
+                );
               }}
             >
-              {["No", "Early", "Late"].map(ele => {
+              {["No", "Early"].map(ele => {
                 return (
                   <FormControlLabel
                     value={ele}
                     control={
                       <Radio
-                        checked={this.props.gameSettings.surrender === ele}
                         icon={
                           <FiberManualRecord
                             className={classes.radioUnchecked}
@@ -200,7 +203,7 @@ class GameSettings extends React.Component {
                 );
               }}
             >
-              {["Any 2 Cards", "9,T,A only", "T,A only"].map(ele => {
+              {["Any 2 Cards", "9,T,11 only", "T,11 only"].map(ele => {
                 return (
                   <FormControlLabel
                     value={ele}

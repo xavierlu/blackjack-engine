@@ -13,7 +13,9 @@ import {
   Paper,
   Typography,
   Slider,
-  CircularProgress
+  CircularProgress,
+  Snackbar,
+  SnackbarContent
 } from "@material-ui/core";
 
 // @material-ui/icons
@@ -52,17 +54,18 @@ class SimulationPage extends React.Component {
       num_hands: 1000,
       gameSettings: {
         num_deck: "",
-        soft17: "",
-        surrender: "",
+        soft17: false,
+        surrender: false,
         das: "",
         permitted_doubles: "",
-        removed_card: "K"
+        removed_card: "None"
       },
       basicStrategyTables: {
         hard_table: hard_default,
         soft_table: soft_default,
         split_table: split_default
-      }
+      },
+      error_snackbar: false
     };
   }
 
@@ -103,6 +106,8 @@ class SimulationPage extends React.Component {
         case 1:
           return (
             <BasicStrategyModifier
+              surrender={this.state.gameSettings.surrender}
+              permitted_doubles={this.state.gameSettings.permitted_doubles}
               hard_table={this.state.basicStrategyTables.hard_table}
               soft_table={this.state.basicStrategyTables.soft_table}
               split_table={this.state.basicStrategyTables.split_table}
@@ -138,7 +143,15 @@ class SimulationPage extends React.Component {
     ];
 
     const handleNext = () => {
-      if (this.state.activeStep === 2) {
+      if (
+        this.state.gameSettings.num_deck === "" ||
+        this.state.gameSettings.das === "" ||
+        this.state.gameSettings.permitted_doubles === ""
+      ) {
+        this.setState({
+          error_snackbar: true
+        });
+      } else if (this.state.activeStep === 2) {
         this.setState({ loading: true, data: null }, () => {
           axios
             .post("http://127.0.0.1:5000/", this.state, {
@@ -158,9 +171,12 @@ class SimulationPage extends React.Component {
               });
             });
         });
+        this.setState({ activeStep: this.state.activeStep + 1 });
+      } else {
+        this.setState({ activeStep: this.state.activeStep + 1 });
       }
 
-      this.setState({ activeStep: this.state.activeStep + 1 });
+      console.log(this.state.gameSettings);
     };
 
     const handleBack = () => {
@@ -246,6 +262,23 @@ class SimulationPage extends React.Component {
                           ? "Run"
                           : "Next"}
                       </Button>
+                      <Snackbar
+                        open={this.state.error_snackbar}
+                        autoHideDuration={3500}
+                        onClose={(event, reason) => {
+                          if (reason === "clickaway") {
+                            return;
+                          }
+                          this.setState({ error_snackbar: false });
+                        }}
+                      >
+                        <SnackbarContent
+                          style={{
+                            backgroundColor: "#F44336"
+                          }}
+                          message={"Please fill out all settings"}
+                        />
+                      </Snackbar>
                     </div>
                   </div>
                 </StepContent>

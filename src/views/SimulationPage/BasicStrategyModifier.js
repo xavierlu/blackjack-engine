@@ -21,6 +21,8 @@ class BasicStrategyModifier extends React.Component {
         return this.props.classes.hit;
       case "D":
         return this.props.classes.double;
+      case "Su":
+        return this.props.classes.su;
       case "Ds":
       case "Y/N":
         return this.props.classes.ds;
@@ -29,13 +31,30 @@ class BasicStrategyModifier extends React.Component {
     }
   };
 
-  circleLetterHard = letter => {
+  circleLetterHard = (letter, row) => {
     switch (letter) {
       case "S":
         return "H";
       case "H":
-        return "D";
+        switch (this.props.permitted_doubles) {
+          case "9,T,11 only":
+            if (row >= 9 && row <= 11) {
+              return "D";
+            } else {
+              return this.props.surrender === "No" ? "S" : "Su";
+            }
+          case "T,11 only":
+            if (row >= 10 && row <= 11) {
+              return "D";
+            } else {
+              return this.props.surrender === "No" ? "S" : "Su";
+            }
+          default:
+            return "D";
+        }
       case "D":
+        return this.props.surrender === "No" ? "S" : "Su";
+      case "Su":
         return "S";
       default:
         console.error("wtf");
@@ -51,6 +70,8 @@ class BasicStrategyModifier extends React.Component {
       case "D":
         return "Ds";
       case "Ds":
+        return this.props.surrender === "No" ? "S" : "Su";
+      case "Su":
         return "S";
       default:
         console.error("wtf");
@@ -103,7 +124,7 @@ class BasicStrategyModifier extends React.Component {
                   this.props.hard_table,
                   row,
                   key,
-                  this.circleLetterHard(data[key])
+                  this.circleLetterHard(data[key], row)
                 )
               }
             >
