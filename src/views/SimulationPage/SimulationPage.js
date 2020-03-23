@@ -50,7 +50,7 @@ class SimulationPage extends React.Component {
     this.state = {
       data: null,
       loading: false,
-      activeStep: 0,
+      activeStep: 1,
       num_hands: 1000,
       gameSettings: {
         num_deck: "",

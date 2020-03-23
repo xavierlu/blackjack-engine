@@ -14,21 +14,24 @@ const basicStrategyStyle = {
       transform: "scale(0.9, 0.9)",
       backgroundColor: "#50ebaf"
     },
-    backgroundColor: "#50eba5"
+    backgroundColor: "#50eba5",
+    textTransform: "none"
   },
   hit: {
     "&:hover": {
       transform: "scale(0.9, 0.9)",
       backgroundColor: "#eb4b8f"
     },
-    backgroundColor: "#eb4b8b"
+    backgroundColor: "#eb4b8b",
+    textTransform: "none"
   },
   double: {
     "&:hover": {
       transform: "scale(0.9, 0.9)",
       backgroundColor: "#5f82ef"
     },
-    backgroundColor: "#5f82ed"
+    backgroundColor: "#5f82ed",
+    textTransform: "none"
   },
   ds: {
     "&:hover": {

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { withStyles } from "@material-ui/styles";
 
-import { Typography, Button } from "@material-ui/core";
+import { Typography, Button, Icon, Grid, Paper } from "@material-ui/core";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 
 import basicStrategyStyle from "./jss/basicStrategyTableStyle.js";
@@ -79,6 +79,7 @@ class BasicStrategyModifier extends React.Component {
   };
 
   circleLetterSplit = letter => {
+    console.log(this.state);
     switch (letter) {
       case "Y":
         return "N";
@@ -232,39 +233,102 @@ class BasicStrategyModifier extends React.Component {
         <Typography>
           Click on the buttons to modify your basic strategy. The actions cycle.
         </Typography>
-        <CustomTabs
-          plainTabs
-          headerColor="info"
-          tabs={[
-            {
-              tabName: "Hard",
-              tabContent: (
-                <table>
-                  {this.createTableHeadRow()}
-                  {this.createHardTable()}
-                </table>
-              )
-            },
-            {
-              tabName: "Soft",
-              tabContent: (
-                <table>
-                  {this.createTableHeadRow()}
-                  {this.createSoftTable()}
-                </table>
-              )
-            },
-            {
-              tabName: "Split",
-              tabContent: (
-                <table>
-                  {this.createTableHeadRow()}
-                  {this.createSplitTable()}
-                </table>
-              )
-            }
-          ]}
-        />
+        <Grid container spacing={2}>
+          <Grid item>
+            <CustomTabs
+              plainTabs
+              headerColor="info"
+              tabs={[
+                {
+                  tabName: "Hard",
+                  tabContent: (
+                    <table>
+                      {this.createTableHeadRow()}
+                      {this.createHardTable()}
+                    </table>
+                  )
+                },
+                {
+                  tabName: "Soft",
+                  tabContent: (
+                    <table>
+                      {this.createTableHeadRow()}
+                      {this.createSoftTable()}
+                    </table>
+                  )
+                },
+                {
+                  tabName: "Split",
+                  tabContent: (
+                    <table>
+                      {this.createTableHeadRow()}
+                      {this.createSplitTable()}
+                    </table>
+                  )
+                }
+              ]}
+            />
+          </Grid>
+          <Grid item style={{ marginLeft: "10px", marginTop: "100px" }}>
+            <Typography>Key:</Typography>
+            <Button
+              fullWidth
+              style={{
+                marginTop: "5px",
+                marginBottom: "5px"
+              }}
+              className={this.getClassStyle("S")}
+            >
+              <Typography>Stand</Typography>
+            </Button>
+            <br />
+            <Button
+              fullWidth
+              style={{
+                marginTop: "5px",
+                marginBottom: "5px"
+              }}
+              className={this.getClassStyle("H")}
+            >
+              <Typography>Hit</Typography>
+            </Button>
+            <br />
+            <Button
+              fullWidth
+              style={{
+                marginTop: "5px",
+                marginBottom: "5px"
+              }}
+              className={this.getClassStyle("D")}
+            >
+              <Typography>Double</Typography>
+            </Button>
+            <br />
+            <Button
+              fullWidth
+              style={{
+                marginTop: "5px",
+                marginBottom: "5px"
+              }}
+              className={this.getClassStyle("Su")}
+            >
+              <Typography>Surrender</Typography>
+            </Button>
+            <br />
+            <Button
+              fullWidth
+              style={{
+                marginTop: "5px",
+                marginBottom: "5px"
+              }}
+              className={this.getClassStyle("Ds")}
+            >
+              <Typography style={{ fontSize: "12px" }}>
+                D if allowed else S
+              </Typography>
+            </Button>
+          </Grid>
+        </Grid>
       </div>
     );
   }
