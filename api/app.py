@@ -62,7 +62,7 @@ def table(config, basicStrategyTables, num_hands):
     def hard_round(deck, player, upcard):
         while int(get_num(player)) < 21 and hard_table[get_num(player)][upcard] != "S":
             if hard_table[get_num(player)][upcard] == "D":
-                if (not is_splitted) or (is_splitted and bool(config['das'])) 
+                if (not is_splitted) or (is_splitted and bool(config['das'])):
                     player.append(deck.pop())
                     return player
                 else:
@@ -85,7 +85,7 @@ def table(config, basicStrategyTables, num_hands):
             curr_num = '2'
 
         if soft_table[curr_num][upcard] == "D":
-            if (not is_splitted) or (is_splitted and bool(config['das'])) 
+            if (not is_splitted) or (is_splitted and bool(config['das'])):
                 player.append(deck.pop())
                 return player
             else:

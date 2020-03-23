@@ -223,12 +223,12 @@ class SimulationPage extends React.Component {
                     color: "#999"
                   }}
                 >
-                  This is the paragraph where you can write more details about
-                  your product. Keep you user engaged by providing meaningful
-                  information. Remember that by this time, the user is curious,
-                  otherwise he wouldn
-                  {"'"}t scroll to get here. Add a button if you want the user
-                  to see more.
+                  Different casinos have different blackjack rules. Some use 6
+                  decks and some use 8. Some hit on soft 17 and some don't. How
+                  do you make sure that your basic strategy is the best for
+                  those particular rules? Put in your blackjack rules and
+                  fine-tune your basic strategy tables. Simulate thousands of
+                  hands right here.
                 </h5>
               </GridItem>
             </GridContainer>
