@@ -12,7 +12,7 @@ cors = CORS(app)
 
 @app.route("/", methods=['POST'])
 def hello():
-    logging.basicConfig(stream=sys.stderr, level=logging.INFO)
+    logging.basicConfig(stream=sys.stderr, level=logging.DEBUG)
     config = request.get_json()
     data = table(config['gameSettings'], config[
                  'basicStrategyTables'], int(config['num_hands']))
@@ -115,9 +115,9 @@ def table(config, basicStrategyTables, num_hands):
 
         if is_blackjack(player):
             logging.debug("blackjack!")
-            return 1.5
-        elif bool(config['surrender']) and (hard_table[get_num(player)][dealer[0]] == 'Su' or soft_table[get_num(player)][dealer[0]] == 'Su'):
-            return -0.5
+            return 1.5, {"player": [player], "dealer": [dealer], "actions": "blackjack!"}
+        elif bool(config['surrender']) and ('A' not in player and hard_table[get_num(player)][dealer[0]] == 'Su'):
+            return -0.5, {"player": [player], "dealer": [dealer], "actions": "surrender"}
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
@@ -163,7 +163,7 @@ def table(config, basicStrategyTables, num_hands):
                 logging.debug("lose")
                 count += -1
 
-        return count
+        return count, {"player": player, "dealer": dealer, "actions": "idk"}
 
     def dealer_turn(deck, dealer):
         if bool(config["soft17"]):
@@ -189,17 +189,20 @@ def table(config, basicStrategyTables, num_hands):
 
     total_count = 0
     chips = []
+    records = []
     reshuffle_count = []
     for i in range(0, num_hands):
         if len(deck) < reshuffle_percentage:
             deck, reshuffle_percentage = new_deck()
             reshuffle_count.append(i)
-        total_count += start_round(deck)
+        count, record = start_round(deck)
+        total_count += count
         is_splitted = False
         chips.append({'chips': total_count})
+        records.append({'record': record})
         logging.debug("---")
 
-    return {"total_chips_count": chips, "reshuffle_count": reshuffle_count}
+    return {"total_chips_count": chips, "reshuffle_count": reshuffle_count, 'records': records}
 
 
 def json_response(payload, status=200):

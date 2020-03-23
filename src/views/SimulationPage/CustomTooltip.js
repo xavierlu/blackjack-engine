@@ -20,12 +20,16 @@ class CustomTooltip extends React.Component {
     const { classes, active } = this.props;
 
     if (active) {
-      const { payload, label } = this.props;
+      const { payload, label, records } = this.props;
       return (
         <Card raised className={classes.paperbox}>
           <Typography>{`Round ${label}: ${payload[0].value}`}</Typography>
-          <Typography>Your cards: [10, 7]</Typography>
-          <Typography>Dealer card: 9</Typography>
+          <Typography>
+            Your cards: {JSON.stringify(records[label].record.player[0])}
+          </Typography>
+          <Typography>
+            Dealer card: {JSON.stringify(records[label].record.dealer)}
+          </Typography>
         </Card>
       );
     }

@@ -51,7 +51,9 @@ class DataVisualizer extends React.Component {
         {this.props.data.reshuffle_count.map(x => {
           return <ReferenceLine x={x} stroke="red" />;
         })}
-        <Tooltip content={<CustomTooltip />} />
+        <Tooltip
+          content={<CustomTooltip records={this.props.data.records} />}
+        />
         <Legend />
         <Line dataKey="chips" dot={false} />
         <Line name="new deck" stroke="red" type="linear" />
