@@ -41,16 +41,20 @@ class DataVisualizer extends React.Component {
       <LineChart
         width={this.state.width}
         height={this.state.height / 3}
-        data={this.props.data}
+        data={this.props.data.total_chips_count}
         margin={{ top: 5, right: 20, left: 20, bottom: 5 }}
       >
         <XAxis />
         <YAxis />
         <CartesianGrid strokeDasharray="5 5" />
         <ReferenceLine y={0} stroke="black" />
+        {this.props.data.reshuffle_count.map(x => {
+          return <ReferenceLine x={x} stroke="red" />;
+        })}
         <Tooltip content={<CustomTooltip />} />
         <Legend />
         <Line dataKey="chips" dot={false} />
+        <Line name="new deck" stroke="red" type="linear" />
       </LineChart>
     );
   }

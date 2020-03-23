@@ -50,7 +50,7 @@ class SimulationPage extends React.Component {
     this.state = {
       data: null,
       loading: false,
-      activeStep: 1,
+      activeStep: 0,
       num_hands: 1000,
       gameSettings: {
         num_deck: "",
@@ -108,6 +108,7 @@ class SimulationPage extends React.Component {
             <BasicStrategyModifier
               surrender={this.state.gameSettings.surrender}
               permitted_doubles={this.state.gameSettings.permitted_doubles}
+              das={this.state.gameSettings.das}
               hard_table={this.state.basicStrategyTables.hard_table}
               soft_table={this.state.basicStrategyTables.soft_table}
               split_table={this.state.basicStrategyTables.split_table}

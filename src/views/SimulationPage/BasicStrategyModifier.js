@@ -24,7 +24,6 @@ class BasicStrategyModifier extends React.Component {
       case "Su":
         return this.props.classes.su;
       case "Ds":
-      case "Y/N":
         return this.props.classes.ds;
       default:
         console.error("wtf");
@@ -84,8 +83,6 @@ class BasicStrategyModifier extends React.Component {
       case "Y":
         return "N";
       case "N":
-        return "Y/N";
-      case "Y/N":
         return "Y";
       default:
         console.error("wtf");

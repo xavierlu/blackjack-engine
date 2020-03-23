@@ -37,10 +37,9 @@ def table(config, basicStrategyTables, num_hands):
         random.shuffle(mod_deck)
         return (
             mod_deck,
-            random.uniform(
-                len(std_deck) * int(config["num_deck"]) * 0.5,
-                len(std_deck) * int(config["num_deck"]),
-            ),
+            len(mod_deck) - random.uniform(len(mod_deck) * 0.75,
+                                           len(mod_deck)
+                                           ),
         )
 
     def is_blackjack(cards):
@@ -189,16 +188,18 @@ def table(config, basicStrategyTables, num_hands):
     logging.info(int(config["num_deck"]))
 
     total_count = 0
-    data = []
+    chips = []
+    reshuffle_count = []
     for i in range(0, num_hands):
         if len(deck) < reshuffle_percentage:
             deck, reshuffle_percentage = new_deck()
+            reshuffle_count.append(i)
         total_count += start_round(deck)
         is_splitted = False
-        data.append({'chips': total_count})
+        chips.append({'chips': total_count})
         logging.debug("---")
 
-    return data
+    return {"total_chips_count": chips, "reshuffle_count": reshuffle_count}
 
 
 def json_response(payload, status=200):
