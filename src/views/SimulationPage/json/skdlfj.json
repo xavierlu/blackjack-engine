@@ -4,7 +4,7 @@
   "gameSettings": {
     "num_deck": "8",
     "soft17": true,
-    "surrender": "No",
+    "peak": false,
     "das": "Allowed",
     "permitted_doubles": "Any 2 Cards",
     "charlie": "No",

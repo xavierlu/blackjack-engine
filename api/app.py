@@ -116,8 +116,6 @@ def table(config, basicStrategyTables, num_hands):
         if is_blackjack(player):
             logging.debug("blackjack!")
             return 1.5, {"player": [player], "dealer": [dealer], "actions": "blackjack!"}
-        elif bool(config['surrender']) and ('A' not in player and hard_table[get_num(player)][dealer[0]] == 'Su'):
-            return -0.5, {"player": [player], "dealer": [dealer], "actions": "surrender"}
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]

@@ -55,7 +55,7 @@ class SimulationPage extends React.Component {
       gameSettings: {
         num_deck: "",
         soft17: false,
-        surrender: false,
+        peak: false,
         das: "",
         permitted_doubles: "",
         removed_card: "None"
@@ -106,7 +106,6 @@ class SimulationPage extends React.Component {
         case 1:
           return (
             <BasicStrategyModifier
-              surrender={this.state.gameSettings.surrender}
               permitted_doubles={this.state.gameSettings.permitted_doubles}
               das={this.state.gameSettings.das}
               hard_table={this.state.basicStrategyTables.hard_table}

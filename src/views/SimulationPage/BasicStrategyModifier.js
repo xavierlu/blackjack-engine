@@ -40,20 +40,18 @@ class BasicStrategyModifier extends React.Component {
             if (row >= 9 && row <= 11) {
               return "D";
             } else {
-              return this.props.surrender === "No" ? "S" : "Su";
+              return "S";
             }
           case "T,11 only":
             if (row >= 10 && row <= 11) {
               return "D";
             } else {
-              return this.props.surrender === "No" ? "S" : "Su";
+              return "S";
             }
           default:
             return "D";
         }
       case "D":
-        return this.props.surrender === "No" ? "S" : "Su";
-      case "Su":
         return "S";
       default:
         console.error("wtf");
@@ -69,8 +67,6 @@ class BasicStrategyModifier extends React.Component {
       case "D":
         return "Ds";
       case "Ds":
-        return this.props.surrender === "No" ? "S" : "Su";
-      case "Su":
         return "S";
       default:
         console.error("wtf");
@@ -299,17 +295,6 @@ class BasicStrategyModifier extends React.Component {
               className={this.getClassStyle("D")}
             >
               <Typography>Double</Typography>
-            </Button>
-            <br />
-            <Button
-              fullWidth
-              style={{
-                marginTop: "5px",
-                marginBottom: "5px"
-              }}
-              className={this.getClassStyle("Su")}
-            >
-              <Typography>Surrender</Typography>
             </Button>
             <br />
             <Button

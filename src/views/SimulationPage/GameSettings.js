@@ -121,17 +121,17 @@ class GameSettings extends React.Component {
             </RadioGroup>
 
             <div>
-              <h4>Surrender</h4>
+              <h4>Hole Card</h4>
             </div>
             <RadioGroup
               onChange={event => {
                 handleChangeGameSettings(
-                  "surrender",
-                  event.target.value === "Early"
+                  "peak",
+                  event.target.value === "Dealer Peeks (US)"
                 );
               }}
             >
-              {["No", "Early"].map(ele => {
+              {["Dealer Peeks (US)", "Does Not Peak (ENHC)"].map(ele => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -151,7 +151,7 @@ class GameSettings extends React.Component {
                       label: classes.label,
                       root: classes.labelRoot
                     }}
-                    label={ele + " Surrender"}
+                    label={ele}
                   />
                 );
               })}
