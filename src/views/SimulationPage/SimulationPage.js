@@ -121,7 +121,7 @@ class SimulationPage extends React.Component {
               <Slider
                 step={10}
                 min={100}
-                max={5000}
+                max={2500}
                 value={this.state.num_hands}
                 onChange={(event, newValue) => {
                   this.setState({ num_hands: newValue });
@@ -246,6 +246,7 @@ class SimulationPage extends React.Component {
                           disabled={this.state.activeStep === 0}
                           onClick={handleBack}
                           className={classes.button}
+                          style={{ margin: "5px" }}
                         >
                           Back
                         </Button>
@@ -257,6 +258,7 @@ class SimulationPage extends React.Component {
                         color="primary"
                         onClick={handleNext}
                         className={classes.button}
+                        style={{ margin: "5px" }}
                       >
                         {this.state.activeStep === steps.length - 1
                           ? "Run"
@@ -297,7 +299,11 @@ class SimulationPage extends React.Component {
               ) : (
                 <DataVisualizer data={this.state.data} />
               )}
-              <Button onClick={handleReset} className={classes.button}>
+              <Button
+                style={{ margin: "10px" }}
+                onClick={handleReset}
+                className={classes.button}
+              >
                 Reset
               </Button>
             </Paper>

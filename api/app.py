@@ -37,8 +37,8 @@ def table(config, basicStrategyTables, num_hands):
         random.shuffle(mod_deck)
         return (
             mod_deck,
-            len(mod_deck) - random.uniform(len(mod_deck) * 0.75,
-                                           len(mod_deck)
+            len(mod_deck) - random.uniform(len(mod_deck) * 0.7,
+                                           len(mod_deck) * 0.9
                                            ),
         )
 
@@ -113,9 +113,11 @@ def table(config, basicStrategyTables, num_hands):
         logging.debug(player)
         logging.debug(dealer[0])
 
-        if is_blackjack(player):
+        if is_blackjack(dealer) and bool(config['peak']):
+            return -1, {"player": [player], "dealer": [dealer], "actions": "rip!"}
+        elif is_blackjack(player):
             logging.debug("blackjack!")
-            return 1.5, {"player": [player], "dealer": [dealer], "actions": "blackjack!"}
+            return 1.5, {"player": [player], "dealer": [dealer], "actions": "rip!"}
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
