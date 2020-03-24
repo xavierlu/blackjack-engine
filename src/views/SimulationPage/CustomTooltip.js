@@ -10,25 +10,29 @@ import { withStyles } from "@material-ui/styles";
 const styles = theme => dataVisStyle;
 
 class CustomTooltip extends React.Component {
-  //   constructor(props) {
-  //     super(props);
-  //   }
-
-  componentDidMount() {}
+  getPoints = arr => {
+    return arr.reduce((sum, x) => parseInt(sum) + parseInt(x))
+  };
 
   render() {
     const { classes, active } = this.props;
 
     if (active) {
       const { payload, label, records } = this.props;
+      const player = records[label].record.player[0];
+      const dealer = records[label].record.dealer;
+      console.log(player);
+      console.log(typeof player);
       return (
         <Card raised className={classes.paperbox}>
           <Typography>{`Round ${label}: ${payload[0].value}`}</Typography>
           <Typography>
-            Your cards: {JSON.stringify(records[label].record.player[0])}
+            Your cards: {JSON.stringify(player)} ={" "}
+            {player.reduce((sum, x) => parseInt(sum) + parseInt(x))}
           </Typography>
           <Typography>
-            Dealer card: {JSON.stringify(records[label].record.dealer)}
+            Dealer card: {JSON.stringify(dealer)} ={" "}
+            {dealer.reduce((sum, x) => parseInt(sum) + parseInt(x))}
           </Typography>
         </Card>
       );
