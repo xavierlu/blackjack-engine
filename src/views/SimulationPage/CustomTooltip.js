@@ -11,7 +11,7 @@ const styles = theme => dataVisStyle;
 
 class CustomTooltip extends React.Component {
   getPoints = arr => {
-    s = 0;
+    let s = 0;
     arr.forEach(e => {
       s += e === "A" ? 11 : parseInt(e);
     });
