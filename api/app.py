@@ -63,6 +63,7 @@ def table(config, basicStrategyTables, num_hands):
             if hard_table[get_num(player)][upcard] == "D":
                 if (not is_splitted) or (is_splitted and bool(config['das'])):
                     player.append(deck.pop())
+                    is_doubled = True
                     return player
                 else:
                     player.append(deck.pop())
@@ -86,6 +87,7 @@ def table(config, basicStrategyTables, num_hands):
         if soft_table[curr_num][upcard] == "D":
             if (not is_splitted) or (is_splitted and bool(config['das'])):
                 player.append(deck.pop())
+                is_doubled = True
                 return player
             else:
                 player.append(deck.pop())
@@ -114,10 +116,10 @@ def table(config, basicStrategyTables, num_hands):
         logging.debug(dealer[0])
 
         if is_blackjack(dealer) and bool(config['peak']):
-            return -1, {"player": [player], "dealer": [dealer], "actions": "rip!"}
+            return -1, {"player": [player], "dealer": dealer}
         elif is_blackjack(player):
             logging.debug("blackjack!")
-            return 1.5, {"player": [player], "dealer": [dealer], "actions": "rip!"}
+            return 1.5, {"player": [player], "dealer": dealer}
         elif player[0] == player[1]:  # split
             if split_table[get_num([player[0]])][dealer[0]] == "Y":  # do split
                 player = [[player[0], deck.pop()], [player[1], deck.pop()]]
@@ -163,6 +165,9 @@ def table(config, basicStrategyTables, num_hands):
                 logging.debug("lose")
                 count += -1
 
+            if is_doubled:
+                count *= 2
+
         return count, {"player": player, "dealer": dealer, "actions": "idk"}
 
     def dealer_turn(deck, dealer):
@@ -181,6 +186,7 @@ def table(config, basicStrategyTables, num_hands):
 
     # keep track of game states
     is_splitted = False
+    is_doubled = False
 
     deck, reshuffle_percentage = new_deck()
 
@@ -198,6 +204,7 @@ def table(config, basicStrategyTables, num_hands):
         count, record = start_round(deck)
         total_count += count
         is_splitted = False
+        is_doubled = False
         chips.append({'chips': total_count})
         records.append({'record': record})
         logging.debug("---")
