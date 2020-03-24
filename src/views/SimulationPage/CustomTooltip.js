@@ -11,7 +11,19 @@ const styles = theme => dataVisStyle;
 
 class CustomTooltip extends React.Component {
   getPoints = arr => {
-    return arr.reduce((sum, x) => parseInt(sum) + parseInt(x))
+    s = 0;
+    arr.forEach(e => {
+      s += e === "A" ? 11 : parseInt(e);
+    });
+
+    if (s > 21 && arr.includes("A")) {
+      s = 0;
+      arr.forEach(e => {
+        s += e === "A" ? 1 : parseInt(e);
+      });
+    }
+
+    return s;
   };
 
   render() {
@@ -21,18 +33,14 @@ class CustomTooltip extends React.Component {
       const { payload, label, records } = this.props;
       const player = records[label].record.player[0];
       const dealer = records[label].record.dealer;
-      console.log(player);
-      console.log(typeof player);
       return (
         <Card raised className={classes.paperbox}>
           <Typography>{`Round ${label}: ${payload[0].value}`}</Typography>
           <Typography>
-            Your cards: {JSON.stringify(player)} ={" "}
-            {player.reduce((sum, x) => parseInt(sum) + parseInt(x))}
+            Your cards: {JSON.stringify(player)} = {this.getPoints(player)}
           </Typography>
           <Typography>
-            Dealer card: {JSON.stringify(dealer)} ={" "}
-            {dealer.reduce((sum, x) => parseInt(sum) + parseInt(x))}
+            Dealer card: {JSON.stringify(dealer)} = {this.getPoints(dealer)}
           </Typography>
         </Card>
       );
