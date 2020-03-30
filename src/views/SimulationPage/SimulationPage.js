@@ -154,7 +154,7 @@ class SimulationPage extends React.Component {
       } else if (this.state.activeStep === 2) {
         this.setState({ loading: true, data: null }, () => {
           axios
-            .post("http://127.0.0.1:5000/", this.state, {
+            .post("https://blackjack-sim-api.herokuapp.com/", this.state, {
               headers: {
                 "Content-Type": "application/json",
                 Accepts: "application/json",
