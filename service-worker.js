@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/blackjack-simulator/precache-manifest.135a5f74c957ccda36aa5477ab131065.js"
+  "/blackjack-simulator/precache-manifest.88a554888608ba5bde90a794bf980406.js"
 );
 
 self.addEventListener('message', (event) => {
