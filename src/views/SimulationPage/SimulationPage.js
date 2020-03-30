@@ -192,7 +192,7 @@ class SimulationPage extends React.Component {
         <Header
           color="dark"
           routes={dashboardRoutes}
-          brand="Blackjack Engine"
+          brand="Blackjack Simulator"
           rightLinks={<HeaderLinks />}
           fixed
           {...rest}
