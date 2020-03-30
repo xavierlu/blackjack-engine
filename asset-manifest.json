@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/blackjack-engine/static/css/main.da005ed0.chunk.css",
+    "main.js": "/blackjack-engine/static/js/main.a9603195.chunk.js",
+    "main.js.map": "/blackjack-engine/static/js/main.a9603195.chunk.js.map",
+    "runtime~main.js": "/blackjack-engine/static/js/runtime~main.4213349d.js",
+    "runtime~main.js.map": "/blackjack-engine/static/js/runtime~main.4213349d.js.map",
+    "static/js/2.bf11f069.chunk.js": "/blackjack-engine/static/js/2.bf11f069.chunk.js",
+    "static/js/2.bf11f069.chunk.js.map": "/blackjack-engine/static/js/2.bf11f069.chunk.js.map",
+    "index.html": "/blackjack-engine/index.html",
+    "precache-manifest.15e05902e33434855993ea64eda015a2.js": "/blackjack-engine/precache-manifest.15e05902e33434855993ea64eda015a2.js",
+    "service-worker.js": "/blackjack-engine/service-worker.js",
+    "static/css/main.da005ed0.chunk.css.map": "/blackjack-engine/static/css/main.da005ed0.chunk.css.map"
+  }
+}
