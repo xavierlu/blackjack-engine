@@ -10,7 +10,7 @@ import {
   FormControl,
   Select,
   MenuItem,
-  FormHelperText
+  FormHelperText,
 } from "@material-ui/core";
 import GridContainer from "components/Grid/GridContainer.js";
 import GridItem from "components/Grid/GridItem.js";
@@ -19,7 +19,7 @@ import FiberManualRecord from "@material-ui/icons/FiberManualRecord";
 
 import gameSettingsStyle from "./jss/gameSettingsStyle.js";
 
-const styles = theme => gameSettingsStyle;
+const styles = (theme) => gameSettingsStyle;
 
 class GameSettings extends React.Component {
   render() {
@@ -39,23 +39,23 @@ class GameSettings extends React.Component {
       "4",
       "3",
       "2",
-      "A"
+      "A",
     ];
 
     return (
       <div>
-        <Typography>Some helpful text here</Typography>
+        <Typography>Select the rules here</Typography>
         <GridContainer>
           <GridItem xs={6} sm={6} md={2}>
             <div>
               <h4>Decks</h4>
             </div>
             <RadioGroup
-              onChange={event => {
+              onChange={(event) => {
                 handleChangeGameSettings("num_deck", event.target.value);
               }}
             >
-              {["2", "3", "4", "5", "6", "7", "8"].map(ele => {
+              {["2", "3", "4", "5", "6", "7", "8"].map((ele) => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -74,7 +74,7 @@ class GameSettings extends React.Component {
                     }
                     classes={{
                       label: classes.label,
-                      root: classes.labelRoot
+                      root: classes.labelRoot,
                     }}
                     label={ele + " decks"}
                   />
@@ -87,14 +87,14 @@ class GameSettings extends React.Component {
               <h4>Dealer's hit</h4>
             </div>
             <RadioGroup
-              onChange={event => {
+              onChange={(event) => {
                 handleChangeGameSettings(
                   "soft17",
                   event.target.value === "Hit"
                 );
               }}
             >
-              {["Stand", "Hit"].map(ele => {
+              {["Stand", "Hit"].map((ele) => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -112,7 +112,7 @@ class GameSettings extends React.Component {
                     }
                     classes={{
                       label: classes.label,
-                      root: classes.labelRoot
+                      root: classes.labelRoot,
                     }}
                     label={ele + " on Soft 17"}
                   />
@@ -124,14 +124,14 @@ class GameSettings extends React.Component {
               <h4>Hole Card</h4>
             </div>
             <RadioGroup
-              onChange={event => {
+              onChange={(event) => {
                 handleChangeGameSettings(
                   "peak",
                   event.target.value === "Dealer Peeks (US)"
                 );
               }}
             >
-              {["Dealer Peeks (US)", "Does Not Peak (ENHC)"].map(ele => {
+              {["Dealer Peeks (US)", "Does Not Peak (ENHC)"].map((ele) => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -149,7 +149,7 @@ class GameSettings extends React.Component {
                     }
                     classes={{
                       label: classes.label,
-                      root: classes.labelRoot
+                      root: classes.labelRoot,
                     }}
                     label={ele}
                   />
@@ -162,11 +162,11 @@ class GameSettings extends React.Component {
               <h4>Double After Split</h4>
             </div>
             <RadioGroup
-              onChange={event => {
+              onChange={(event) => {
                 handleChangeGameSettings("das", event.target.value);
               }}
             >
-              {["Allowed", "Not Allowed"].map(ele => {
+              {["Allowed", "Not Allowed"].map((ele) => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -185,7 +185,7 @@ class GameSettings extends React.Component {
                     }
                     classes={{
                       label: classes.label,
-                      root: classes.labelRoot
+                      root: classes.labelRoot,
                     }}
                     label={ele}
                   />
@@ -196,14 +196,14 @@ class GameSettings extends React.Component {
               <h4>Permitted Doubles</h4>
             </div>
             <RadioGroup
-              onChange={event => {
+              onChange={(event) => {
                 handleChangeGameSettings(
                   "permitted_doubles",
                   event.target.value
                 );
               }}
             >
-              {["Any 2 Cards", "9,T,11 only", "T,11 only"].map(ele => {
+              {["Any 2 Cards", "9,T,11 only", "T,11 only"].map((ele) => {
                 return (
                   <FormControlLabel
                     value={ele}
@@ -224,7 +224,7 @@ class GameSettings extends React.Component {
                     }
                     classes={{
                       label: classes.label,
-                      root: classes.labelRoot
+                      root: classes.labelRoot,
                     }}
                     label={ele}
                   />
@@ -239,11 +239,11 @@ class GameSettings extends React.Component {
             <FormControl className={classes.formControl}>
               <Select
                 value={this.props.gameSettings.removed_card}
-                onChange={event =>
+                onChange={(event) =>
                   handleChangeGameSettings("removed_card", event.target.value)
                 }
               >
-                {cards.map(card => {
+                {cards.map((card) => {
                   return <MenuItem value={card}>{card}</MenuItem>;
                 })}
               </Select>
@@ -257,7 +257,7 @@ class GameSettings extends React.Component {
 }
 
 GameSettings.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(GameSettings);
