@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "1ca55e159929aa6b0c86a80af0036de8",
+    "revision": "16c71e69237ab18e8bb0386e8f639f01",
     "url": "/blackjack-simulator/index.html"
   },
   {
-    "revision": "7fe679243eeb359c86f6",
+    "revision": "b19203640215d87fb340",
     "url": "/blackjack-simulator/static/css/main.da005ed0.chunk.css"
   },
   {
@@ -12,8 +12,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/blackjack-simulator/static/js/2.867bae2e.chunk.js"
   },
   {
-    "revision": "7fe679243eeb359c86f6",
-    "url": "/blackjack-simulator/static/js/main.e345e088.chunk.js"
+    "revision": "b19203640215d87fb340",
+    "url": "/blackjack-simulator/static/js/main.fbfdcd95.chunk.js"
   },
   {
     "revision": "cf62682830d99ce06f74",
