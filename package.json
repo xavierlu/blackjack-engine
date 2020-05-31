@@ -1,8 +1,8 @@
 {
   "homepage": "http://xavierlu.github.io/blackjack-simulator",
-  "name": "material-kit-react",
-  "version": "1.8.0",
-  "description": "Material Kit React. Coded by Creative Tim",
+  "name": "blackjack-simulator",
+  "version": "1.0.1",
+  "description": "Different casinos have different blackjack rules. How do you know if your basic strategy fits and beats the system? This webapp allows you to simulate thousands of hands with various settings and basic strategies.",
   "private": true,
   "main": "dist/index.js",
   "dependencies": {
